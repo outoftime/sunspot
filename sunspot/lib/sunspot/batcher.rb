@@ -31,6 +31,10 @@ module Sunspot
       stack.length
     end
 
+    def batching?
+      depth > 0
+    end
+
 
 
     def each

@@ -91,4 +91,16 @@ describe Sunspot::Batcher do
       end
     end
   end
+
+  describe "#batching?" do
+    it "is false when depth is 0" do
+      subject.should_receive(:depth).and_return 0
+      should_not be_batching
+    end
+
+    it "is true when depth is more than 0" do
+      subject.should_receive(:depth).and_return 1
+      should be_batching
+    end
+  end
 end
