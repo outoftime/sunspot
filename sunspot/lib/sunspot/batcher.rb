@@ -16,15 +16,32 @@ module Sunspot
   # be sent of to be indexed first.
   #
   class Batcher
+    include Enumerable
+
     # Raised if you ask to end current, but no current exists
     class NoCurrentBatchError < StandardError; end
-
-    include Enumerable
 
 
     def initialize
       @stack = []
     end
+
+
+
+    def current
+      stack.last or start_new
+    end
+
+    def start_new
+      (stack << []).last
+    end
+
+    def end_current
+      fail NoCurrentBatchError if stack.empty?
+
+      stack.pop
+    end
+
 
 
     def depth
@@ -46,21 +63,10 @@ module Sunspot
     end
     alias << push
 
-
-
-    def current
-      stack.last or start_new
+    def concat(values)
+      current.concat values
     end
 
-    def start_new
-      (stack << []).last
-    end
-
-    def end_current
-      fail NoCurrentBatchError if stack.empty?
-
-      stack.pop
-    end
 
 
     private

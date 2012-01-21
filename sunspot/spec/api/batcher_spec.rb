@@ -20,7 +20,7 @@ describe Sunspot::Batcher do
     end
   end
 
-  describe "pushing" do
+  describe "adding to current batch" do
     it "#push pushes to current" do
       subject.push :foo
       subject.current.should include :foo
@@ -29,6 +29,12 @@ describe Sunspot::Batcher do
     it "#<< pushes to current" do
       subject.push :foo
       subject.current.should include :foo
+    end
+
+    it "#concat concatinates on current batch" do
+      subject << :foo
+      subject.concat [:bar, :mix]
+      should include :foo, :bar, :mix
     end
   end
 
@@ -65,7 +71,7 @@ describe Sunspot::Batcher do
     it "changes current" do
       subject << :foo
       subject.start_new
-      subject.should_not include :foo
+      should_not include :foo
     end
   end
 
@@ -82,7 +88,7 @@ describe Sunspot::Batcher do
       it "changes current" do
         subject << :foo
         subject.end_current
-        subject.should_not include :foo
+        should_not include :foo
       end
 
       it "returns current" do
