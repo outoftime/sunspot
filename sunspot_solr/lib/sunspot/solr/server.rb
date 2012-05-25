@@ -115,8 +115,11 @@ module Sunspot
       def stop
         if File.exist?(pid_path)
           pid = IO.read(pid_path).to_i
+          pgpid = Process.getpgid(pid) # process group id for started process
+                                       # required to kill child processes
           begin
-            Process.kill('TERM', pid)
+            Process.kill('TERM', -pgpid) # negative argument means that
+                                         # process group is killed
           rescue Errno::ESRCH
             raise NotRunningError, "Process with PID #{pid} is no longer running"
           ensure
