@@ -35,14 +35,14 @@ describe Sunspot::Solr::Server do
   end
 
   it 'runs Solr with specified data dir' do
-    @server.solr_data_dir = '/var/solr/data'
-    @server.should_receive(:exec).with(%r(-Dsolr\.data\.dir=/var/solr/data))
+    @server.solr_data_dir = '/tmp/solr/data'
+    @server.should_receive(:exec).with(%r(-Dsolr\.data\.dir=/tmp/solr/data))
     @server.run
   end
 
   it 'runs Solr with specified Solr home' do
-    @server.solr_home = '/var/solr'
-    @server.should_receive(:exec).with(%r(-Dsolr\.solr\.home=/var/solr))
+    @server.solr_home = '/tmp/solr'
+    @server.should_receive(:exec).with(%r(-Dsolr\.solr\.home=/tmp/solr))
     @server.run
   end
 
@@ -57,6 +57,28 @@ describe Sunspot::Solr::Server do
     expect {
      Sunspot::Solr::Server.new
     }.to raise_error(Sunspot::Solr::Server::JavaMissing)
+  end
+
+  context 'when solr process already exists' do
+    let(:pid_path) { @server.pid_path }
+
+    before do
+      File.stub(:exist?)
+          .with(pid_path)
+          .and_return(true)
+      IO.stub(:read)
+        .with(pid_path)
+        .and_return(8000)
+    end
+    it 'kills solr process and child processes on stop' do
+      FileUtils.should_receive(:rm).with(pid_path)
+      Process.should_receive(:getpgid)
+             .with(8000)
+             .and_return(8001)
+      Process.should_receive(:kill).with("TERM", -8001)
+
+      @server.stop
+    end
   end
 
   describe 'with logging' do
