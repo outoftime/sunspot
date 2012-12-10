@@ -20,7 +20,7 @@ module Sunspot
 
         def execute
           sunspot_config_path = File.join(File.dirname(__FILE__), '..', '..',
-                                          '..', '..', 'solr', 'solr', 'conf')
+                                          '..', '..', 'solr', 'solr','conf')
           return if File.expand_path(sunspot_config_path) == File.expand_path(@config_path)
 
           FileUtils.mkdir_p(@config_path)
@@ -38,7 +38,15 @@ module Sunspot
 
             say("Copying #{file} => #{dest}")
             FileUtils.cp(file, dest)
+            
+            
           end
+          
+          solr4_xml_file = File.join(File.dirname(__FILE__), '..', '..',
+                                        '..', '..', 'solr', 'solr', 'solr.xml')
+          solr4_dest_dir = File.join(FileUtils.pwd, 'solr')
+          say("Copying #{solr4_xml_file} => #{solr4_dest_dir}")
+          FileUtils.cp(solr4_xml_file, solr4_dest_dir)
         end
       end
     end
