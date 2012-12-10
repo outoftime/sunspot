@@ -52,6 +52,7 @@
          Class names starting with "solr" refer to java classes in the
        org.apache.solr.analysis package.
     -->
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="string" class="solr.StrField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
@@ -111,6 +112,7 @@
      default: a value that should be used if no value is specified
        when adding a document.
    -->
+    <field name="_version_" indexed="true" stored="true" multiValued="false" type="long"/>
     <!-- *** This field is used by Sunspot! *** -->
     <field name="id" stored="true" type="string" multiValued="false" indexed="true"/>
     <!-- *** This field is used by Sunspot! *** -->

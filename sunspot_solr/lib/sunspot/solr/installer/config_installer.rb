@@ -20,7 +20,7 @@ module Sunspot
 
         def execute
           sunspot_config_path = File.join(File.dirname(__FILE__), '..', '..',
-                                          '..', '..', 'solr', 'solr','conf')
+                                          '..', '..', 'solr', 'solr', 'core_default','conf')
           return if File.expand_path(sunspot_config_path) == File.expand_path(@config_path)
 
           FileUtils.mkdir_p(@config_path)

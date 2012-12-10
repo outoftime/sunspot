@@ -48,6 +48,6 @@
   You can read more about SolrCloud mode at http://wiki.apache.org/solr/SolrCloud
   -->
   <cores adminPath="/admin/cores" defaultCoreName="core_default" host="${host:}" hostPort="${jetty.port:}" hostContext="${hostContext:}" zkClientTimeout="${zkClientTimeout:15000}">
-
+	   <core name="core_default" instanceDir="core_default" />
  </cores>
 </solr>
