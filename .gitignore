@@ -8,3 +8,5 @@ sunspot_rails/spec/rails3/vendor
 sunspot-solr.pid
 .yardoc
 docs
+sunspot_solr/solr/solr-webapp
+.DS_Store
