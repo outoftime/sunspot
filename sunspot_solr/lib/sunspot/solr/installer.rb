@@ -18,7 +18,7 @@ module Sunspot
       end
 
       def execute
-        ConfigInstaller.execute(File.join(@solr_home, 'conf'), @options)
+        ConfigInstaller.execute(File.join(@solr_home, 'core_default','conf'), @options)
       end
     end
   end
